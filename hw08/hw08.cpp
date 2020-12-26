@@ -56,7 +56,7 @@ int32_t menu()
     }
     return option;
 }
-void Search(tree product)
+void Search(tree &product)
 {
     int32_t number = 0;
     cout << "Please enter the product number:";
@@ -95,7 +95,7 @@ void Search(tree product)
     }
 }
 
-void Import(tree product)
+void Import(tree &product)
 {
     int32_t number,amount;
     cout << "Please enter the product number: ";
@@ -138,7 +138,7 @@ void Import(tree product)
     }
 }
 
-void Delete(tree product)
+void Delete(tree &product)
 {
     int32_t number;
     cout << "Please enter the product number you want to delete:";
@@ -162,7 +162,7 @@ void Delete(tree product)
     cin >> a;
 }
 
-void Export(tree product)
+void Export(tree &product)
 {
     int32_t number,amount;
     cout << "Please enter the product number you want to export:";
@@ -199,7 +199,7 @@ void Export(tree product)
     cout << endl << "Enter any character to return menu..." << endl;
     cin >> a;
 }
-void List(tree product)
+void List(tree &product)
 {
     product.show();
     char a;
@@ -207,7 +207,7 @@ void List(tree product)
     cin >> a;
 }
 
-void Modify(tree product)
+void Modify(tree &product)
 {
     int32_t number,newnum;
     cout << "Please enter the product number you want to Modify:";
@@ -218,12 +218,31 @@ void Modify(tree product)
     find = product.search(number);
     if(find)
     {
-        cout << "=== you have just modified the product number of product " << setw(3) << setfill('0') << find->number << endl;
-        cout << "=== the new data is ===" << endl;
-        find->number = newnum;
-        cout << "product number: " << setw(3) << setfill('0') << find->number << endl;
-        cout << "price: " << find->price << endl;
-        cout << "amount: " << find->amount << endl;
+        int32_t tmpnumber = find->number;
+        int32_t tmpprice = find->price;
+        int32_t tmpamount = find->amount;
+        size_t size = product.size();
+        product.remove(find);
+        Node *tmp;
+        tmp = product.search(newnum);
+        if(tmp)
+        {
+            tmp->amount += tmpamount;
+            cout << "=== you have just modified the product number of product " << setw(3) << setfill('0') << tmpnumber << endl;
+            cout << "=== the new data is ===" << endl;
+            cout << "product number: " << setw(3) << setfill('0') << tmp->number << endl;
+            cout << "price: " << tmp->price << endl;
+            cout << "amount: " << tmp->amount << endl;
+        }
+        else
+        {
+            product.create(newnum,tmpprice,tmpamount);
+            cout << "=== you have just modified the product number of product " << setw(3) << setfill('0') << tmpnumber << endl;
+            cout << "=== the new data is ===" << endl;
+            cout << "product number: " << setw(3) << setfill('0') << newnum << endl;
+            cout << "price: " << tmpprice << endl;
+            cout << "amount: " << tmpamount << endl;
+        }
     }
     else
     {
@@ -234,7 +253,7 @@ void Modify(tree product)
     cin >> a;
 }
 
-void highestprice(tree product)
+void highestprice(tree &product)
 {
     Node *find;
     find = product.pricesearch();
@@ -244,7 +263,7 @@ void highestprice(tree product)
     cin >> a;
 }
 
-void Exit(tree product)
+void Exit(tree &product)
 {
     char ans;
     cout << "Do you want to save your change?(Y/N)" << endl;

@@ -19,6 +19,7 @@ struct Node{
 
 class tree{
 public:
+    tree():size_(0){}
     Node** infix()                 //create array
     {
         Node **array = new Node*[size_];
@@ -36,5 +37,5 @@ public:
 private:    
     Node ** infix(Node **arr,Node *ptr);
     Node *root = nullptr;
-    size_t size_ = 0;
+    size_t size_;
 };
